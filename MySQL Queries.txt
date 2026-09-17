@@ -1,0 +1,184 @@
+MySQL Queries
+
+
+*)show databases;
+*) create database;
+*) use Database_name;
+*)create table table_name;
+*)show tables; // shows tables inside the DBs;
+*) insert into table_name values(); // for single entry
+
+*) insert into table_name(column_fields) values (values ); // values should in sequence of fields
+
+*) select * from table_name;    // for see the info.inside the table
+
+*) Read data:
+
+select * from employee;
+
+*) delete data
+
+delete from employee where id =1;
+
+
+*) update data:
+
+update employee set address = 'pune' where id =2;
+
+ exit;
+
+
+
+
+ALTER Queries:(ALL QUERIES WILL APPLY ON TABLE OR COLUMN)
+
+1.) Drop Database
+
+ -->  DROP Database Database_name;
+
+2.) Drop table
+
+ -->  DROP table table_name;
+
+3.) Drop column
+
+-->  Alter table table_name DROP COLUMN column_name;
+
+4.) Rename table
+
+ --> Alter table table_name RENAME TO  new_table_name;
+
+5.) Rename culumn
+
+ --> Alter table table_name RENAME column column_name TO new_column_name;
+
+6) Add Column
+
+ --> Alter table table_name ADD COLUMN new_column_name datatype;
+
+7.) Modify column  // if we made a mistake at the time of the making of table we can correct it using this query
+
+ --> Alter table table_name MODIFY COLUMN new_column_name datatype;
+
+8.) Comments:
+   
+  i.) Single-line comment:
+
+  -->  --   --
+  
+  ii.) Multi-line Comments:
+
+  -->   /*
+
+
+
+    */
+
+
+MYSQL Day 6
+
+Todays Lecture Agenda :
+
+WITHOUT IN : 
+
+SELECT * FROM student where city = 'pune' OR city ='goa' OR city = 'nsk' OR city = 'thane';
+
+With IN :
+
+SELECT * FROM student where city IN('pune','goa','nsk','thane');
+
+SELECT * FROM student where city NOT IN('pune','goa','nsk','thane');
+
+
+WITHOUT BETWEEN : range : 
+
+SELECT * FROM employee where salary >= 30000 AND salary <= 70000;
+
+WITH BETWEEN  : 
+
+SELECT * FROM employee where salary BETWEEN 30000 AND 70000;
+
+SELECT * FROM employee where salary NOT BETWEEN 30000 AND 70000;
+
+SELECT * FROM employee where salary BETWEEN 30000 AND 50000 AND salary != 40000;
+
+
+
+Aggregate Functions :
+
+note : ignore NULL values 
+
+Count()
+Sum()
+Min()
+Max()
+Avg()
+ 
+SELECT SUM(salary) FROM employee where city IN('pune','mumbai');
+
+
+Datatypes :
+
+
+Numeric :
+
+INT 
+BIGINT 
+FLOAT
+DOUBLE
+DECIMAL(6.2)  --> (4567.00)
+
+
+String :
+
+char
+varchar(50)
+Text
+
+
+
+Boolean :
+
+Boolean --> true/false 1/0
+
+
+
+Date & Time : 
+
+DATE     ---> '2001-05-23'
+TIME      ---> '09:30:56' 
+TIMESTAMP  -->  '2001-05-23 09:30:56'
+YEAR         ---> '2001' 
+
+CURTIME / CURDATE  / CURRENT_TIMESTAMP
+
+
+JSON : 
+
+'{"city":"pune","age":56}'
+
+ 
+create table Demo(id INT,mobNo BIGINT , height FLOAT, Distance DOUBLE,salary DECIMAL(6,2),gender CHAR,name VARCHAR(60),Feedback TEXT, is_Passed BOOLEAN,dob DATE,checke_IN TIME,log_In TIMESTAMP,passingYR YEAR, extra JSON);
+
+
+INSERT QUERY : 
+
+
+insert into ddd values(123,2345678765,6.3,456.678,4500.00,'M','Ramu','I LOVE MYSQL/sql',true,'2003-10-05','08:45:34','2003-10-05 08:45:34','2003','{"age": 23,"city":"pune"}');
+
+
+insert into ddd values(123,2345678765,6.3,456.678,4500.00,'M','Ramu','I LOVE MYSQL/sql',true,'2003-10-05',CURTIME(),CURRENT_TIMESTAMP(),'2003','{"age": 23,"city":"pune"}');
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
