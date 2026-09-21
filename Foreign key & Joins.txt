@@ -1,0 +1,116 @@
+Foreign key & Joins 
+
+create table department (deptID int PRIMARY KEY AUTO_INCREMENT,deptname varchar(60),deptsize int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc department;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| deptID   | int         | NO   | PRI | NULL    | auto_increment |
+| deptname | varchar(60) | YES  |     | NULL    |                |
+| deptsize | int         | YES  |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> create table employee(empID int PRIMARY KEY,empname varchar(30),city varchar(30),deptID int,FOREIGN KEY(deptID) REFERENCES department(deptID));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc employee;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| empID   | int         | NO   | PRI | NULL    |       |
+| empname | varchar(30) | YES  |     | NULL    |       |
+| city    | varchar(30) | YES  |     | NULL    |       |
+| deptID  | int         | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+
+insert into department(deptname,deptsize) values ('HR',5),('F_devloper',10),('B_devloper',8);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from department;
++--------+------------+----------+
+| deptID | deptname   | deptsize |
++--------+------------+----------+
+|      1 | HR         |        5 |
+|      2 | F_devloper |       10 |
+|      3 | B_devloper |        8 |
++--------+------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into employee(empID,empname,city,deptID) values (1,'omkar','pune',2),(2,'karan','pune',3),(3,'kartik','pune',1);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+------+--------+
+| empID | empname | city | deptID |
++-------+---------+------+--------+
+|     1 | omkar   | pune |      2 |
+|     2 | karan   | pune |      3 |
+|     3 | kartik  | pune |      1 |
++-------+---------+------+--------+
+
+Types of Joins:
+ 
+INNER: Fetch matching record only from both table. 
+
+select employee.empid,employee.empname,employee.city,employee.deptid,department.deptname,department.deptsize from employee INNER JOIN department ON employee.deptID = department.deptID;
++-------+---------+------+--------+------------+----------+
+| empid | empname | city | deptid | deptname   | deptsize |
++-------+---------+------+--------+------------+----------+
+|     1 | omkar   | pune |      2 | F_devloper |       10 |
+|     2 | karan   | pune |      3 | B_devloper |        8 |
+|     3 | kartik  | pune |      1 | HR         |        5 |
++-------+---------+------+--------+------------+----------+
+
+LEFT: fetch all record from left table.
+
+select employee.empid,employee.empname,employee.city,employee.deptid,department.deptname,department.deptsize from employee LEFT JOIN department ON employee.deptID = department.deptID;
++-------+---------+------+--------+------------+----------+
+| empid | empname | city | deptid | deptname   | deptsize |
++-------+---------+------+--------+------------+----------+
+|     1 | omkar   | pune |      2 | F_devloper |       10 |
+|     2 | karan   | pune |      3 | B_devloper |        8 |
+|     3 | kartik  | pune |      1 | HR         |        5 |
++-------+---------+------+--------+------------+----------+
+
+RIGHT : fetch all record from right table.
+
+select employee.empid,employee.empname,employee.city,department.deptid,department.deptname,department.deptsize from employee RIGHT JOIN department ON employee.deptID = department.deptID;
++-------+---------+------+--------+------------+----------+
+| empid | empname | city | deptid | deptname   | deptsize |
++-------+---------+------+--------+------------+----------+
+|     3 | kartik  | pune |      1 | HR         |        5 |
+|     1 | omkar   | pune |      2 | F_devloper |       10 |
+|     2 | karan   | pune |      3 | B_devloper |        8 |
++-------+---------+------+--------+------------+----------+
+
+FULL OUTER : fetch all possibility from both table.
+             By using UNION keyword.
+
+select employee.empid,employee.empname,employee.city,employee.deptid,department.deptname,department.deptsize from employee LEFT JOIN department ON employee.deptID = department.deptID UNION select employee.empid,employee.empname,employee.city,department.deptid,department.deptname,department.deptsize from employee RIGHT JOIN department ON employee.deptID = department.deptID;
+
+CROSS : It will build cross connection betn two table & fetching all possibility.
+
+select employee.empname,department.deptname from employee CROSS JOIN department;
+
++---------+------------+
+| empname | deptname   |
++---------+------------+
+| kartik  | HR         |
+| karan   | HR         |
+| omkar   | HR         |
+| kartik  | F_devloper |
+| karan   | F_devloper |
+| omkar   | F_devloper |
+| kartik  | B_devloper |
+| karan   | B_devloper |
+| omkar   | B_devloper |
++---------+------------+
+
+SELF : A self join is a join where a table is joined with itself.
+       It is useful records in the same table are related to each other.
